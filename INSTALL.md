@@ -11,11 +11,11 @@ This instructions will only work for `v2021.0`.
 Assumes CUDA, CuDNN installed.
 
 After general installation...
-1. Install `pycuda` and `tensorrt`
-2. Run `make` in `util/trt_mtcnn_plugin/mtcnn`
-3. Run `./create_engines` in the same directory
-4. Run `make` in `util/trt_mtcnn_plugin`
-5. See ["Install `facenet` engine"](#install-facenet-engine) section
+1. Install `pycuda` and `tensorrt` - if you can't install `pycuda`, try installing `pipwin` and run `pipwin install pycuda`
+3. Run `make` in `util/trt_mtcnn_plugin/mtcnn`
+4. Run `./create_engines` in the same directory
+5. Run `make` in `util/trt_mtcnn_plugin`
+6. See ["Install `facenet` engine"](#install-facenet-engine) section
 
 ## Jetson Nano installation
 Follow these for Jetson-specific instructions, tested with Jetpack 4.5 (CUDA 10.2).

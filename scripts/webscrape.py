@@ -3,6 +3,7 @@ import os
 import time
 import requests
 import shutil
+from requests.auth import HTTPBasicAuth
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys #import ability to type
 from selenium.webdriver.common.by import By
@@ -38,16 +39,17 @@ password_input.send_keys(PASSWORD)
 submit_button = driver.find_element_by_xpath("//input[@class='" + SUBMIT_BUTTON_CLASS_NAME + "']") #invalid xpath
 submit_button.click()
 
-try:
-    answer_required = driver.find_element_by_xpath("//span[@class='" + ANSWER_REQUIRED_CLASS_NAME + "']")
-    incorrect_password = driver.find_element_by_xpath("//span[@class='" + INCORRECT_PASSWORD_CLASS_NAME + "']")
-
-    if answer_required.get_attribute("style") != "display: none":
-        sys.exit("Couldn't enter the password in")
-    elif incorrect_password.get_attribute("style") != "display: none":
-        sys.exit("Incorrect password: " + PASSWORD)
-except NoSuchElementException:
-    pass
+# time.sleep(1)
+# try:
+#     answer_required = driver.find_element_by_xpath("//span[@class='" + ANSWER_REQUIRED_CLASS_NAME + "']")
+#     incorrect_password = driver.find_element_by_xpath("//span[@class='" + INCORRECT_PASSWORD_CLASS_NAME + "']")
+#
+#     if answer_required.get_attribute("style") != "display: none":
+#         sys.exit("Couldn't enter the password in")
+#     elif incorrect_password.get_attribute("style") != "display: none":
+#         sys.exit("Incorrect password: " + PASSWORD)
+# except NoSuchElementException:
+#     pass
 
 
 #scrape pictures
@@ -69,9 +71,11 @@ for i in range(0, len(students)):
             os.makedirs(path)
             print("created folders")
 
-        response = requests.get(url, stream=True)
-        with open(os.path.join(path, "{}_{}".format(name, j+1)), "wb") as out_file:
-            shutil.copyfileobj(response.raw, out_file)
+        response = requests.get(url)
+        print(response.status_code)
+        with open(os.path.join(path, "{}_{}".format(name, j+1))+".jfif", "wb") as file:
+            # shutil.copyfileobj(response.raw, file)
+            file.write(response.content)
         del response
 
     print("Downloaded {} images of {}".format(len(list_items), name))
